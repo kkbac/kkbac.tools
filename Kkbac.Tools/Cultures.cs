@@ -21,7 +21,7 @@ namespace Kkbac.Tools
             //设置成当前线程的CultureInfo
             System.Threading.Thread.CurrentThread.CurrentCulture = culture;
 
-            //var formatString = "#,###0";
+            var formatString = "#,###0";
             //return formatString;
         }
 
