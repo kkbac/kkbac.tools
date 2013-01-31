@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Kkbac.Tools.Web.MVC.PagerLink
+{
+    public class PagedList<T> : List<T>, IPagedList<T>
+    {
+        public PagedList(IEnumerable<T> source, int index, int pageSize, int totalCount)
+            : this(source.AsQueryable(), index, pageSize, totalCount)
+        {
+        }
+
+        public PagedList(IQueryable<T> source, int index, int pageSize, int totalCount)
+        {
+            if (index < 0)
+            {
+                index = 1;
+                // throw new ArgumentOutOfRangeException("index", "Value can not be below 0.");
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+                //   throw new ArgumentOutOfRangeException("pageSize", "Value can not be less than 1.");
+            }
+            if (source == null)
+                source = new List<T>().AsQueryable();
+
+            TotalItemCount = totalCount;
+
+            PageSize = pageSize;
+            PageIndex = index;
+            PageCount = (int)Math.Ceiling(TotalItemCount / (double)PageSize);
+
+            HasPreviousPage = (PageIndex > 0);
+            HasNextPage = (PageIndex < (PageCount - 1));
+            IsFirstPage = (PageIndex <= 0);
+            IsLastPage = (PageIndex >= (PageCount - 1));
+
+            ItemStart = PageIndex * PageSize + 1;
+            ItemEnd = Math.Min(PageIndex * PageSize + PageSize, TotalItemCount);
+
+            if (TotalItemCount <= 0)
+                return;
+
+            AddRange(source);
+        }
+
+        #region IPagedList Members
+
+        public int PageCount { get; private set; }
+        public int TotalItemCount { get; private set; }
+        public int PageIndex { get; private set; }
+        public int PageSize { get; private set; }
+        public bool HasPreviousPage { get; private set; }
+        public bool HasNextPage { get; private set; }
+        public bool IsFirstPage { get; private set; }
+        public bool IsLastPage { get; private set; }
+        public int ItemStart { get; private set; }
+        public int ItemEnd { get; private set; }
+
+        #endregion
+    }
+
+}
