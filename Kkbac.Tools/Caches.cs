@@ -71,7 +71,8 @@ namespace Kkbac.Tools
         /// <param name="key"></param>
         /// <param name="fun"></param>
         /// <returns></returns>
-        public T Get<T>(string key, Func<T> fun, long seconds = expirationSeconds)
+        public T Get<T>(string key,
+            Func<T> fun, long seconds = expirationSeconds)
         {
             T t;
             object o = Get(key);
