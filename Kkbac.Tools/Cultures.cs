@@ -4,8 +4,13 @@ namespace Kkbac.Tools
 {
     public class Cultures
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void SetZhNumber()
         {
+            //测试Git 修改.
+
             //修改CultureInfo的NumberFormatInfo
             var culture = (CultureInfo)CultureInfo.GetCultureInfo("zh-cn").Clone();
             culture.NumberFormat.NumberGroupSizes =
